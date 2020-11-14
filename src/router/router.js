@@ -6,17 +6,17 @@ import blog from '../components/blog'
 import pagenotfound from '../components/pagenotfound'
 
 const routes = [
-    { path: '/', component: login },
+    { path: '', component: login },
     {
         path: '/dashboard',
         component: dashboard,
         children: [
-            { path: '/overivew', component: overview },
-            { path: '/rentals', component: rentals },
-            { path: '/blog', component: blog },
-            { path: '*', component: pagenotfound }
+            { path: '', component: overview },
+            { path: 'rentals', component: rentals },
+            { path: 'blog', component: blog },
         ]
-    }
+    },
+    { path: '*', component: pagenotfound }
 ]
 
 export default routes;
