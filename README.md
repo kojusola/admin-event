@@ -1,4 +1,4 @@
-# eventtrolley_admin
+# events_trolley_admin
 
 ## Project setup
 ```

@@ -10,9 +10,12 @@ export default {
 }
 </script>
 
-<style>
-   /* @import url('https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css'); */
+<style lang="scss">
+    @import url('https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css');
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    :root{
+      --primary: #30A2E2;
+    }
   body{
     font-family: 'Inter', sans-serif !important;
     margin: 0;
@@ -26,5 +29,16 @@ export default {
   }
   .align-items-center{
     align-items: center;
+  }
+  .logo{
+    display: flex;
+    align-items: center;
+    img{
+       width: 40px;
+      height: 40px;
+    }
+  }
+  .text-primary{
+    color: #30A2E2 !important;
   }
 </style>
