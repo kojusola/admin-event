@@ -1,6 +1,6 @@
 <template>
   <div>
-      <nav class="navbar py-3">
+      <nav class="w-100 navbar py-3">
           <span class="font-weight-bold text-capitalize">{{getRoute()}}</span>
           <div>
             <el-dropdown trigger="click">
