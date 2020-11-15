@@ -15,6 +15,8 @@ export default {
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     :root{
       --primary: #30A2E2;
+      --light-primary: #364D6E;
+      --dark-primary: #222831;
     }
   body{
     font-family: 'Inter', sans-serif !important;
@@ -40,5 +42,15 @@ export default {
   }
   .text-primary{
     color: #30A2E2 !important;
+  }
+  .bg-light-primary{
+    background-color: var(--light-primary);
+  }
+  ion-icon{
+    margin-right: 5px;
+    width: 24px;
+    text-align: center;
+    font-size: 18px;
+    vertical-align: middle;
   }
 </style>

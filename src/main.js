@@ -7,7 +7,12 @@ import ElementUI from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en'
 
 Vue.config.productionTip = false;
+
+//element ui config
 Vue.use(ElementUI, { locale });
+
+//ion-icons config
+Vue.config.ignoredElements = [/^ion-/]
 
 //baseUrl
 const http = axios.create({
