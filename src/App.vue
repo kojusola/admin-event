@@ -53,4 +53,7 @@ export default {
     font-size: 18px;
     vertical-align: middle;
   }
+  button:focus {
+    outline: 0 !important;
+}
 </style>

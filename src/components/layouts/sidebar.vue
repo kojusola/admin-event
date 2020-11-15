@@ -7,28 +7,34 @@
       active-text-color="#30A2E2"
       class="el-menu-vertical-demo"
       :collapse="isCollapse"
+      default-active="1"
     >
-    <div class="my-5 d-flex flex-column justify-center">
-        <div class="avatar mx-auto">
-        </div>
-        <h6 class="text-center text-light mt-3">Amanam Israel</h6>
-        <p class="badge bg-light-primary text-primary text-center m-0 mx-auto">Admin</p>
-    </div>
+          <div v-if="isCollapse">
+            <div class="bg-light mt-3 avatar-small mx-auto">
+            </div>
+            <p class="badge bg-light-primary text-primary text-center m-0 d-block my-3 mx-auto">AI</p>
+          </div>
+          <div v-else class="my-5 d-flex flex-column justify-center">
+              <div class="avatar bg-light mx-auto">
+              </div>
+              <h6 class="text-center text-light mt-3">Amanam Israel</h6>
+              <p class="badge bg-light-primary text-primary text-center m-0 mx-auto">Admin</p>
+          </div>
       <div class="menu">
-        <el-menu-item index="1">
-          <ion-icon name="grid-outline"></ion-icon>
-          <span slot="title">Overview</span>
-        </el-menu-item>
-        <el-menu-item index="2">
-          <ion-icon name="book-outline"></ion-icon>
-          <span slot="title">Blog</span>
-        </el-menu-item>
-        <el-menu-item index="3">
-         <ion-icon name="key-outline"></ion-icon>
-          <span slot="title">Rentals</span>
-        </el-menu-item>
-      </div>
-    </el-menu>
+            <el-menu-item class="is-active"  index="1" @click="toOverview">
+              <ion-icon name="grid-outline"></ion-icon>
+              <span tag="span" slot="title">Overview</span>
+            </el-menu-item>
+            <el-menu-item index="2" @click="toBlog">
+              <ion-icon name="book-outline"></ion-icon>
+              <span slot="title">Blog</span>
+            </el-menu-item>
+            <el-menu-item index="3" @click="toRentals">
+            <ion-icon name="key-outline"></ion-icon>
+              <span slot="title">Rentals</span>
+            </el-menu-item>
+          </div>
+      </el-menu>
   </div>
 </template>
 
@@ -46,7 +52,16 @@ export default {
         ? (this.isCollapse = true)
         : (this.isCollapse = false);
     },
-  },
+    toRentals(){
+      this.$router.push('/dashboard/rentals').catch(()=>{});
+    },
+    toBlog(){
+      this.$router.push('/dashboard/blog').catch(()=>{});
+    },
+    toOverview(){
+      this.$router.push('/dashboard').catch(()=>{});
+    }
+  }
 };
 </script>
 
@@ -60,11 +75,14 @@ export default {
     height: 100%;
   }
 }
-.avatar{
+.avatar,.avatar-small {
   width: 100px;
   height: 100px;
-  background-color: aliceblue;
   border-radius: 50%;
+}
+.avatar-small{
+  width: 50px;
+  height: 50px;
 }
 .badge{
   padding: 1em;

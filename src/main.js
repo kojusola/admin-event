@@ -5,6 +5,7 @@ import axios from "axios";
 import './assets/el-theme/index.css'
 import ElementUI from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en'
+import 'element-ui/lib/theme-chalk/display.css'
 
 Vue.config.productionTip = false;
 
