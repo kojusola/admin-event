@@ -1,17 +1,20 @@
 <template>
   <div>
-    <Navbar/>
+    <Navbar />
     <el-main>
       <el-card shadow="never">
         <div class="container-fluid">
-          <img src="../assets/illustrations/lock-icon.svg" class="d-block mx-auto mb-3" alt="lock-icon">
+          <img
+            src="../assets/illustrations/lock-icon.svg"
+            class="d-block mx-auto mb-3"
+            alt="lock-icon"
+          />
           <h5 class="text-center text-primary">Administrator Login</h5>
           <el-form
             status-icon
-            :label-position="labelPosition"
+            :label-position="'top'"
             :rules="rules"
             ref="loginForm"
-            label-width="100px"
             :model="loginForm"
           >
             <el-form-item label="Email" prop="email">
@@ -25,7 +28,12 @@
                 v-model="loginForm.password"
               ></el-input>
             </el-form-item>
-            <el-button class="w-100 my-3" type="primary" @click="login('loginForm')">Login</el-button>
+            <el-button
+              class="w-100 my-3"
+              type="primary"
+              @click="login('loginForm')"
+              >Login</el-button
+            >
           </el-form>
         </div>
       </el-card>
@@ -34,65 +42,75 @@
 </template>
 
 <script>
-import Navbar from './layouts/navbar.vue'
+import Navbar from "./layouts/navbar.vue";
 export default {
-    name: 'login',
-    components: {
-        Navbar
-    },
-    data() {
+  name: "login",
+  components: {
+    Navbar,
+  },
+  data() {
     let validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("Please input your password"));
-      }
-      else{
+      } else {
         callback();
       }
     };
-     return {
-      labelPosition: 'top',
+    return {
       loginForm: {
         email: "",
         password: "",
       },
-      errorMessage: 'error message',
-      successMessage: 'Success message',
+      errorMessage: "error message",
+      successMessage: "Success message",
       rules: {
-      password: [
-        { required: true, validator: validatePass, trigger: ["blur", 'change'] }
-      ],
-      email: [
-        { required: true, message: 'Please input your email address', trigger: 'blur' },
-        { type: 'email', message: 'Please input a correct email address', trigger: ['blur', 'change'] }
-      ]
+        password: [
+          {
+            required: true,
+            validator: validatePass,
+            trigger: ["blur", "change"],
+          },
+        ],
+        email: [
+          {
+            required: true,
+            message: "Please input your email address",
+            trigger: "blur",
+          },
+          {
+            type: "email",
+            message: "Please input a correct email address",
+            trigger: ["blur", "change"],
+          },
+        ],
       },
     };
   },
   methods: {
-    login(formName) {
-      this.$refs[formName].validate((valid) => {
+    login(loginForm) {
+      this.$refs[loginForm].validate((valid) => {
         if (valid) {
           const notification = this.$createElement;
           this.$notify.success({
-          title: 'Sucess',
-          message: notification('span', this.successMessage)
+            title: "Sucess",
+            message: notification("span", this.successMessage),
           });
         } else {
           const notification = this.$createElement;
           this.$notify.error({
-          title: 'Error',
-          message: notification('span', this.errorMessage)
-        });
+            title: "Error",
+            message: notification("span", this.errorMessage),
+          });
           return false;
         }
       });
-    }
+    },
   },
-}
+};
 </script>
 
 <style lang="scss">
-  .el-main {
+.el-main {
   width: 100%;
   height: calc(100vh - 56px);
   display: flex !important;
@@ -104,8 +122,8 @@ export default {
     height: min-content;
   }
 }
-label{
-    margin: 0;
-    padding: 0 !important;
+label {
+  margin: 0;
+  padding: 0 !important;
 }
 </style>

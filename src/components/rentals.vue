@@ -9,9 +9,66 @@
         />
       </el-col>
       <el-col :span="12">
-        <el-button icon="el-icon-plus" class="ml-auto d-block" type="primary"
-          >Add new</el-button
+        <el-button
+          icon="el-icon-plus"
+          @click="newRentalDialog = true"
+          class="ml-auto d-block"
+          type="primary"
+          >Add New</el-button
         >
+        <el-dialog title="New Rental" :visible.sync="newRentalDialog">
+          <el-form
+            :rules="rules"
+            :model="newRentalForm"
+            ref="newRentalForm"
+            status-icon
+          >
+            <el-form-item label="Name">
+              <el-input
+                v-model="newRentalForm.name"
+                prop="name"
+                autocomplete="on"
+              ></el-input>
+            </el-form-item>
+            <div class="row">
+              <div class="col-6">
+                <el-form-item label="Price">
+                  <el-input
+                    v-model="newRentalForm.price"
+                    prop="price"
+                    autocomplete="off"
+                  ></el-input>
+                </el-form-item>
+              </div>
+              <div class="col-6">
+                <el-form-item>
+                  <label class="d-block">Quantity</label>
+                  <el-input-number
+                    class="w-100"
+                    prop="quantity"
+                    v-model="newRentalForm.quantity"
+                    :min="1"
+                    :max="100"
+                  ></el-input-number>
+                </el-form-item>
+              </div>
+            </div>
+            <el-form-item label="Description">
+              <el-input
+                type="textarea"
+                prop="description"
+                v-model="newRentalForm.description"
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <div class="d-flex justify-content-between">
+              <el-button @click="newRentalDialog = false">Cancel</el-button>
+              <el-button type="primary" @click="submitForm('newRentalForm')"
+                >Create</el-button
+              >
+            </div>
+          </el-form>
+        </el-dialog>
       </el-col>
     </el-row>
     <el-table
@@ -61,7 +118,38 @@ export default {
       ],
       multipleSelection: [],
       search: "",
-      fullscreenLoading: false,
+      newRentalDialog: false,
+      newRentalForm: {
+        name: "",
+        price: "",
+        quantity: 1,
+        description: "",
+        image: "",
+      },
+      rules: {
+        name: [
+          {
+            required: true,
+            message: "productname is required",
+            trigger: "blur",
+          },
+          { min: 3, message: "name is too short", trigger: "blur" },
+        ],
+        price: [
+          { required: true, message: "price is required", trigger: "blur" },
+        ],
+        quantity: [
+          { required: true, message: "quantity is required", trigger: "blur" },
+        ],
+        description: [
+          {
+            required: true,
+            message: "product description is required",
+            trigger: "blur",
+          },
+          { min: 3, message: "description is too short", trigger: "blur" },
+        ],
+      },
     };
   },
   methods: {
@@ -86,6 +174,20 @@ export default {
         loading.close();
       }, 2000);
     },
+    submitForm(rentalsForm) {
+      console.log(this.newRentalForm);
+      this.$refs[rentalsForm].validate((valid) => {
+        if (valid) {
+          this.$message({
+            message: "Product created",
+            type: "success",
+          });
+        } else {
+          this.$message.error("Oops, Something is not right");
+          return false;
+        }
+      });
+    },
   },
   created() {
     // this.getData();
@@ -93,5 +195,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
