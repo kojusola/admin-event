@@ -83,15 +83,10 @@ export default {
 .active {
   margin-left: -300px;
 }
-.avatar,
-.avatar-small {
+.avatar {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-}
-.avatar-small {
-  width: 50px;
-  height: 50px;
 }
 .badge {
   padding: 1em;

@@ -17,6 +17,8 @@ export default {
       --primary: #30A2E2;
       --light-primary: #364D6E;
       --dark-primary: #222831;
+      --gray: #AFADA7;
+      --space: 15px;
     }
   body{
     font-family: 'Inter', sans-serif !important;
@@ -55,5 +57,11 @@ export default {
   }
   button:focus {
     outline: 0 !important;
+}
+.row>div{
+  margin-bottom: var(--space);
+}
+.text-gray{
+  color: var(--gray);
 }
 </style>
