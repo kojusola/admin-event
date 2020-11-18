@@ -37,9 +37,7 @@
 export default {
   name: "sidebar",
   data() {
-    return {
-      // isCollapse: false,
-    };
+    return {};
   },
   methods: {
     toRentals() {
