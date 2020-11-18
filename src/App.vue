@@ -47,10 +47,10 @@ export default {
     background-color: var(--light-primary);
   }
   ion-icon{
-    margin-right: 5px;
     width: 24px;
+    stroke-width: 20px;
     text-align: center;
-    font-size: 18px;
+    font-size: 20px;
     vertical-align: middle;
   }
   button:focus {
