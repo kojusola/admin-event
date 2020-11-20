@@ -90,17 +90,13 @@ export default {
     login(loginForm) {
       this.$refs[loginForm].validate((valid) => {
         if (valid) {
-          const notification = this.$createElement;
-          this.$notify.success({
-            title: "Sucess",
-            message: notification("span", this.successMessage),
+          this.$message({
+            message: "Login Successful",
+            type: "success",
           });
+          this.$router.push('/dashboard')
         } else {
-          const notification = this.$createElement;
-          this.$notify.error({
-            title: "Error",
-            message: notification("span", this.errorMessage),
-          });
+          this.$message.error("Oops, Something is not right");
           return false;
         }
       });

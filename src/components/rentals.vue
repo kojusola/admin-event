@@ -16,36 +16,47 @@
           type="primary"
           >Add New</el-button
         >
-        <el-dialog title="New Rental" :visible.sync="newRentalDialog">
+        <el-dialog title="New Rental" :visible.sync="newRentalDialog" :close-on-click-modal="false" :close-on-press-escape="false">
+          <el-upload
+              class="upload-demo"
+              :auto-upload="false"
+              :on-remove="handleRemove"
+              :file-list="imageList"
+              drag
+              action="https://jsonplaceholder.typicode.com/posts/"
+              multiple
+              :limit="3">
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
+              <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div>
+          </el-upload>
           <el-form
             :rules="rules"
             :model="newRentalForm"
             ref="newRentalForm"
             status-icon
+            :label-position="'top'"
           >
-            <el-form-item label="Name">
+            <el-form-item label="Name" prop="name">
               <el-input
                 v-model="newRentalForm.name"
-                prop="name"
-                autocomplete="on"
+                autocomplete="off"
               ></el-input>
             </el-form-item>
             <div class="row">
               <div class="col-6">
-                <el-form-item label="Price">
+                <el-form-item label="Price" prop="price">
                   <el-input
+                    class="price_input"
                     v-model="newRentalForm.price"
-                    prop="price"
                     autocomplete="off"
                   ></el-input>
                 </el-form-item>
               </div>
               <div class="col-6">
-                <el-form-item>
-                  <label class="d-block">Quantity</label>
+                <el-form-item label="quantity">
                   <el-input-number
                     class="w-100"
-                    prop="quantity"
                     v-model="newRentalForm.quantity"
                     :min="1"
                     :max="100"
@@ -53,19 +64,16 @@
                 </el-form-item>
               </div>
             </div>
-            <el-form-item label="Description">
+            <el-form-item label="Description" prop="description">
               <el-input
                 type="textarea"
-                prop="description"
                 v-model="newRentalForm.description"
                 autocomplete="off"
               ></el-input>
             </el-form-item>
             <div class="d-flex justify-content-between">
-              <el-button @click="newRentalDialog = false">Cancel</el-button>
-              <el-button type="primary" @click="submitForm('newRentalForm')"
-                >Create</el-button
-              >
+              <el-button @click="cancelForm('newRentalForm')">Cancel</el-button>
+              <el-button type="primary" @click="submitForm('newRentalForm')">Create</el-button>
             </div>
           </el-form>
         </el-dialog>
@@ -119,6 +127,7 @@ export default {
       multipleSelection: [],
       search: "",
       newRentalDialog: false,
+      imageList: [],
       newRentalForm: {
         name: "",
         price: "",
@@ -130,24 +139,21 @@ export default {
         name: [
           {
             required: true,
-            message: "productname is required",
-            trigger: "blur",
+            message: "product name is required",
+            trigger: ["blur", "change"],
           },
-          { min: 3, message: "name is too short", trigger: "blur" },
+          { min: 3, message: "name is too short", trigger: ["blur", "change"] },
         ],
         price: [
-          { required: true, message: "price is required", trigger: "blur" },
-        ],
-        quantity: [
-          { required: true, message: "quantity is required", trigger: "blur" },
+          { required: true, message: "price is required", trigger: ["blur", "change"] },
         ],
         description: [
           {
             required: true,
             message: "product description is required",
-            trigger: "blur",
+            trigger: ["blur", "change"],
           },
-          { min: 3, message: "description is too short", trigger: "blur" },
+          { min: 3, message: "description is too short", trigger: ["blur", "change"] },
         ],
       },
     };
@@ -175,19 +181,33 @@ export default {
       }, 2000);
     },
     submitForm(rentalsForm) {
-      console.log(this.newRentalForm);
       this.$refs[rentalsForm].validate((valid) => {
         if (valid) {
           this.$message({
             message: "Product created",
             type: "success",
           });
+          console.log(this.newRentalForm, this.imageList)
         } else {
           this.$message.error("Oops, Something is not right");
           return false;
         }
       });
     },
+    async cancelForm(rentalsForm){
+          this.$confirm(`All information will be lost. Close?`).then(()=> {
+              this.newRentalDialog = false
+              this.$refs[rentalsForm].resetFields();
+              this.$message({
+                  type: 'info',
+                  message: 'Create Rental cancelled'
+                }); 
+          }).catch(()=> {});
+    },
+    handleRemove(image, imageList){
+      console.log(this.imageList, image, imageList)
+    }
+    
   },
   created() {
     // this.getData();
@@ -195,4 +215,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped lang="scss">
+</style>
