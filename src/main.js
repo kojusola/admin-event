@@ -27,6 +27,13 @@ http.interceptors.request.use(config => {
     return config;
 });
 
+// disable Element UI async validator form console warnings
+const warn = console.warn;
+console.warn = (...args) => {
+    if (typeof args[0] === 'string' && args[0].startsWith('async-validator:')) return
+    warn(...args)
+}
+
 new Vue({
     router,
     render: h => h(App)

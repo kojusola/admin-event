@@ -36,7 +36,7 @@
             ref="newRentalForm"
             status-icon
             :label-position="'top'"
-          >
+            >
             <el-form-item label="Name" prop="name">
               <el-input
                 v-model="newRentalForm.name"
@@ -44,24 +44,24 @@
               ></el-input>
             </el-form-item>
             <div class="row">
-              <div class="col-6">
+              <div class="col-md-6">
                 <el-form-item label="Price" prop="price">
                   <el-input
                     class="price_input"
-                    v-model="newRentalForm.price"
+                    @input="($event) => {this.formattedPrice = $event }"
                     autocomplete="off"
                   ></el-input>
                 </el-form-item>
+                {{formattedPrice}}
               </div>
-              <div class="col-6">
-                <el-form-item label="quantity">
-                  <el-input-number
-                    class="w-100"
-                    v-model="newRentalForm.quantity"
-                    :min="1"
-                    :max="100"
-                  ></el-input-number>
+              <div class="col-md-6">
+                <el-form-item label="Quantity" prop="quantity">
+                  <el-input
+                    class="quantity"
+                    v-model.number="newRentalForm.quantity"
+                  ></el-input>
                 </el-form-item>
+                {{formattedQuantity}}
               </div>
             </div>
             <el-form-item label="Description" prop="description">
@@ -130,7 +130,7 @@ export default {
       imageList: [],
       newRentalForm: {
         name: "",
-        price: "",
+        price: null,
         quantity: 1,
         description: "",
         image: "",
@@ -146,6 +146,11 @@ export default {
         ],
         price: [
           { required: true, message: "price is required", trigger: ["blur", "change"] },
+          { type: 'number', message: 'quantity must be a number'}
+        ],
+        quantity: [
+          { required: true, message: "quantity is required", trigger: ["blur", "change"] },
+          { type: 'number', message: 'quantity must be a number'}
         ],
         description: [
           {
@@ -187,7 +192,12 @@ export default {
             message: "Product created",
             type: "success",
           });
-          console.log(this.newRentalForm, this.imageList)
+          Object.keys(this.newRentalForm).map((item) => {
+            if(typeof(this.newRentalForm[item]) == "string"){
+                this.newRentalForm[item] = this.newRentalForm[item].trim();
+            }
+          })
+          console.log(this.newRentalForm)
         } else {
           this.$message.error("Oops, Something is not right");
           return false;
@@ -195,7 +205,7 @@ export default {
       });
     },
     async cancelForm(rentalsForm){
-          this.$confirm(`All information will be lost. Close?`).then(()=> {
+          this.$confirm(`All information will be lost. Are you sure?`).then(()=> {
               this.newRentalDialog = false
               this.$refs[rentalsForm].resetFields();
               this.$message({
@@ -209,11 +219,29 @@ export default {
     }
     
   },
-  created() {
-    // this.getData();
+  computed: {
+    formattedPrice: {
+    // getter
+    get: function () {
+      return new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(this.newRentalForm.price);
+    },
+    // setter
+    set: function (newValue) {
+      this.newRentalForm.price = newValue
+    }
+  },
+    formattedQuantity: function() {
+      return new Intl.NumberFormat().format(this.newRentalForm.quantity);
+    }
   },
 };
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
+.el-dialog{
+  width: fit-content !important;
+}
+.el-upload-dragger, .el-upload{
+  width: 100% !important;
+}
 </style>
