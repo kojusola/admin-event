@@ -69,8 +69,11 @@
               <div class="col-md-6">
                 <el-form-item label="Quantity" prop="quantity">
                   <el-input
+                    type="text"
                     class="quantity"
-                    v-model.number="newRentalForm.quantity"
+                    @input="handleQuantityInput"
+                    :value="formattedQuantity"
+                    autocomplete="off"
                   ></el-input>
                 </el-form-item>
                 {{ formattedQuantity }}
@@ -97,7 +100,7 @@
       ref="multipleTable"
       :data="
         tableData.filter(
-          data =>
+          (data) =>
             !search || data.name.toLowerCase().includes(search.toLowerCase())
         )
       "
@@ -135,8 +138,8 @@ export default {
           name: "Microphone 2e45",
           created: "11-22-3333",
           cost: "$50",
-          status: "Cancelled"
-        }
+          status: "Cancelled",
+        },
       ],
       multipleSelection: [],
       search: "",
@@ -145,54 +148,57 @@ export default {
       newRentalForm: {
         name: "",
         price: "",
-        quantity: 1,
+        quantity: "",
         description: "",
-        image: ""
+        image: "",
       },
       rules: {
         name: [
           {
             required: true,
             message: "product name is required",
-            trigger: ["blur", "change"]
+            trigger: ["blur", "change"],
           },
-          { min: 3, message: "name is too short", trigger: ["blur", "change"] }
+          { min: 3, message: "name is too short", trigger: ["blur", "change"] },
         ],
         price: [
           {
             required: true,
             message: "price is required",
-            trigger: ["blur", "change"]
-          },
-          { type: "number", message: "quantity must be a number" }
+            trigger: ["blur", "change"],
+          }
         ],
         quantity: [
           {
             required: true,
             message: "quantity is required",
-            trigger: ["blur", "change"]
-          },
-          { type: "number", message: "quantity must be a number" }
+            trigger: ["blur", "change"],
+          }
         ],
         description: [
           {
             required: true,
             message: "product description is required",
-            trigger: ["blur", "change"]
+            trigger: ["blur", "change"],
           },
           {
             min: 3,
             message: "description is too short",
-            trigger: ["blur", "change"]
-          }
-        ]
-      }
+            trigger: ["blur", "change"],
+          },
+        ],
+      },
     };
   },
   methods: {
     handlePriceInput(price) {
       this.$nextTick().then(() => {
         this.formattedPrice = price;
+      });
+    },
+    handleQuantityInput(quantity) {
+      this.$nextTick().then(() => {
+        this.formattedQuantity = quantity;
       });
     },
     handleEdit(index, row) {
@@ -210,20 +216,20 @@ export default {
         lock: true,
         text: "Loading",
         spinner: "el-icon-loading",
-        background: "rgba(0, 0, 0, 0.7)"
+        background: "rgba(0, 0, 0, 0.7)",
       });
       setTimeout(() => {
         loading.close();
       }, 2000);
     },
     submitForm(rentalsForm) {
-      this.$refs[rentalsForm].validate(valid => {
+      this.$refs[rentalsForm].validate((valid) => {
         if (valid) {
           this.$message({
             message: "Product created",
-            type: "success"
+            type: "success",
           });
-          Object.keys(this.newRentalForm).map(item => {
+          Object.keys(this.newRentalForm).map((item) => {
             if (typeof this.newRentalForm[item] == "string") {
               this.newRentalForm[item] = this.newRentalForm[item].trim();
             }
@@ -242,14 +248,14 @@ export default {
           this.$refs[rentalsForm].resetFields();
           this.$message({
             type: "info",
-            message: "Create Rental cancelled"
+            message: "Create Rental cancelled",
           });
         })
         .catch(() => {});
     },
     handleRemove(image, imageList) {
       console.log(this.imageList, image, imageList);
-    }
+    },
   },
 
   computed: {
@@ -259,7 +265,7 @@ export default {
           style: "currency",
           currency: "NGN",
           minimumFractionDigits: 0,
-          maximumFractionDigits: 0
+          maximumFractionDigits: 0,
         }).format(this.newRentalForm.price);
       },
       set(value) {
@@ -268,12 +274,18 @@ export default {
 
         if (Number.isNaN(Number(value))) return;
         this.newRentalForm.price = Number(value);
+      },
+    },
+    formattedQuantity: {
+      get(){
+          return new Intl.NumberFormat().format(this.newRentalForm.quantity);
+      },
+      set(value) {
+        if (Number.isNaN(Number(value))) return;
+        this.newRentalForm.quantity = Number(value)
       }
     },
-    formattedQuantity: function() {
-      return new Intl.NumberFormat().format(this.newRentalForm.quantity);
-    }
-  }
+  },
 };
 </script>
 
