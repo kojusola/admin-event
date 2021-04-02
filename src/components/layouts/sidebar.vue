@@ -1,6 +1,11 @@
 <template>
   <div id="sidebar">
-    <el-button @click="toggleSidebar" type="text" id="close" icon="el-icon-close"></el-button>
+    <el-button
+      @click="toggleSidebar"
+      type="text"
+      id="close"
+      icon="el-icon-close"
+    ></el-button>
     <el-menu
       background-color="#222831"
       text-color="#fff"
@@ -20,11 +25,15 @@
           <ion-icon name="grid-outline" class="mr-3"></ion-icon>
           <span tag="span" slot="title">Overview</span>
         </el-menu-item>
-        <el-menu-item index="2" @click="toBlog">
+        <el-menu-item index="2" @click="toTickets">
+          <ion-icon name="ticket-outline" class="mr-3"></ion-icon>
+          <span slot="title">Tickets</span>
+        </el-menu-item>
+        <el-menu-item index="3" @click="toBlog">
           <ion-icon name="book-outline" class="mr-3"></ion-icon>
           <span slot="title">Blog</span>
         </el-menu-item>
-        <el-menu-item index="3" @click="toRentals">
+        <el-menu-item index="4" @click="toRentals">
           <ion-icon name="key-outline" class="mr-3"></ion-icon>
           <span slot="title">Rentals</span>
         </el-menu-item>
@@ -44,6 +53,10 @@ export default {
       this.$router.push("/dashboard/rentals").catch(() => {});
       this.checkWindow();
     },
+    toTickets() {
+      this.$router.push("/dashboard/tickets").catch(() => {});
+      this.checkWindow();
+    },
     toBlog() {
       this.$router.push("/dashboard/blog").catch(() => {});
       this.checkWindow();
@@ -52,8 +65,8 @@ export default {
       this.$router.push("/dashboard").catch(() => {});
       this.checkWindow();
     },
-    checkWindow(){
-      if(window.matchMedia('(max-width: 576px)').matches){
+    checkWindow() {
+      if (window.matchMedia("(max-width: 576px)").matches) {
         this.toggleSidebar();
       }
     },
@@ -68,13 +81,13 @@ export default {
 <style lang="scss">
 #sidebar {
   min-width: 300px;
-    max-width: 300px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 998;
-    height: 100vh;
+  max-width: 300px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 998;
+  height: 100vh;
 
   .el-menu {
     height: 100%;
@@ -92,7 +105,7 @@ export default {
   padding: 1em;
   width: min-content;
 }
-#close{
+#close {
   position: absolute;
   right: 0;
   top: 17px;
@@ -100,14 +113,14 @@ export default {
   padding: 1em;
   display: none;
 }
-@media screen and (max-width: 576px){
-  #sidebar{
+@media screen and (max-width: 576px) {
+  #sidebar {
     margin-left: -300px;
   }
   #sidebar.active {
-  margin-left: 0;
+    margin-left: 0;
   }
-  #close{
+  #close {
     display: block;
   }
 }
