@@ -1,10 +1,10 @@
-import login from "../components/login";
-import dashboard from "../components/dashboard";
-import overview from "../components/overview";
-import rentals from "../components/rentals";
-import blog from "../components/blog";
-import pagenotfound from "../components/pagenotfound";
-import tickets from "../components/tickets";
+import login from "../pages/login/login";
+import dashboard from "../pages/dashboard/dashboard";
+import overview from "../pages/dashboard/overview/overview";
+import tickets from "../pages/dashboard/tickets/tickets";
+import rentals from "../pages/dashboard/rentals/rentals";
+import blog from "../pages/dashboard/blog/blog";
+import pagenotfound from "../pages/pagenotfound/pagenotfound";
 
 const routes = [
   { path: "", component: login },

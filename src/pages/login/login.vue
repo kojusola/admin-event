@@ -5,7 +5,7 @@
       <el-card shadow="never">
         <div class="container-fluid">
           <img
-            src="../assets/illustrations/lock-icon.svg"
+            src="../../assets/illustrations/lock-icon.svg"
             class="d-block mx-auto mb-3"
             alt="lock-icon"
           />
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import Navbar from "./layouts/navbar.vue";
+import Navbar from "../../components/layouts/navbar.vue";
 export default {
   name: "login",
   components: {
@@ -94,7 +94,7 @@ export default {
             message: "Login Successful",
             type: "success",
           });
-          this.$router.push('/dashboard')
+          this.$router.push("/dashboard");
         } else {
           this.$message.error("Oops, Something is not right");
           return false;

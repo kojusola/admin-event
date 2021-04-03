@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import Sidebar from "./layouts/sidebar.vue";
-import Subnav from "./layouts/subnav.vue";
+import Sidebar from "../../components/layouts/sidebar.vue";
+import Subnav from "../../components/layouts/subnav.vue";
 export default {
   name: "dashboard",
   components: {
@@ -21,7 +21,7 @@ export default {
   },
   data() {
     return {};
-  }
+  },
 };
 </script>
 
@@ -44,12 +44,12 @@ export default {
 #content.active {
   width: 100%;
 }
-@media screen and (max-width: 576px){
-  #content{
+@media screen and (max-width: 576px) {
+  #content {
     width: 100%;
   }
   #content.active {
-  width: 100%;
+    width: 100%;
   }
 }
 </style>
