@@ -64,7 +64,6 @@
                     autocomplete="off"
                   ></el-input>
                 </el-form-item>
-                {{ formattedPrice }}
               </div>
               <div class="col-md-6">
                 <el-form-item label="Quantity" prop="quantity">
@@ -76,7 +75,6 @@
                     autocomplete="off"
                   ></el-input>
                 </el-form-item>
-                {{ formattedQuantity }}
               </div>
             </div>
             <el-form-item label="Description" prop="description">
@@ -166,14 +164,14 @@ export default {
             required: true,
             message: "price is required",
             trigger: ["blur", "change"],
-          }
+          },
         ],
         quantity: [
           {
             required: true,
             message: "quantity is required",
             trigger: ["blur", "change"],
-          }
+          },
         ],
         description: [
           {
@@ -273,17 +271,19 @@ export default {
         value = value.replace(/,/g, "");
 
         if (Number.isNaN(Number(value))) return;
-        this.newRentalForm.price = Number(value);
+        // this.newRentalForm.price = Number(value); //changes to number
+        this.newRentalForm.price = value; // changes to string
+        // render with which ever backend will require
       },
     },
     formattedQuantity: {
-      get(){
-          return new Intl.NumberFormat().format(this.newRentalForm.quantity);
+      get() {
+        return new Intl.NumberFormat().format(this.newRentalForm.quantity);
       },
       set(value) {
         if (Number.isNaN(Number(value))) return;
-        this.newRentalForm.quantity = Number(value)
-      }
+        this.newRentalForm.quantity = Number(value);
+      },
     },
   },
 };
