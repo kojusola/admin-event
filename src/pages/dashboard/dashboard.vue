@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import Sidebar from "../../components/layouts/sidebar.vue";
-import Subnav from "../../components/layouts/subnav.vue";
+import Sidebar from "../../components/layouts/sidebar/sidebar.vue";
+import Subnav from "../../components/layouts/subnav/subnav.vue";
 export default {
   name: "dashboard",
   components: {

@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import Navbar from "../../components/layouts/navbar.vue";
+import Navbar from "../../components/layouts/navbar/navbar.vue";
 export default {
   name: "login",
   components: {
