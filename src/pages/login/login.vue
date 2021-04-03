@@ -1,15 +1,17 @@
 <template>
   <div>
     <Navbar />
-    <el-main>
+    <main>
       <el-card shadow="never">
         <div class="container-fluid">
-          <img
-            src="../../assets/illustrations/lock-icon.svg"
-            class="d-block mx-auto mb-3"
-            alt="lock-icon"
-          />
-          <h5 class="text-center text-primary">Administrator Login</h5>
+          <div class="d-flex justify-content-center my-3">
+            <ion-icon
+              class="text-primary"
+              name="lock-closed-outline"
+              size="large"
+            ></ion-icon>
+          </div>
+          <h5 class="text-center">Administrator Login</h5>
           <el-form
             status-icon
             :label-position="'top'"
@@ -37,7 +39,7 @@
           </el-form>
         </div>
       </el-card>
-    </el-main>
+    </main>
   </div>
 </template>
 
@@ -106,9 +108,9 @@ export default {
 </script>
 
 <style lang="scss">
-.el-main {
+main {
   width: 100%;
-  height: calc(100vh - 56px);
+  height: calc(100vh - 57px);
   display: flex !important;
   justify-content: center;
   align-items: center;
@@ -116,6 +118,7 @@ export default {
   .el-card {
     width: 500px;
     height: min-content;
+    border: 0;
   }
 }
 label {
