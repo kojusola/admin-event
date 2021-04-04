@@ -15,7 +15,7 @@
           <el-form
             status-icon
             :label-position="'top'"
-            :rules="rules"
+            :rules="loginFormRules"
             ref="loginForm"
             :model="loginForm"
           >
@@ -33,9 +33,9 @@
             <el-button
               class="w-100 my-3"
               type="primary"
-              @click="login('loginForm')"
-              >Login</el-button
-            >
+              @click="validateForm('loginForm')"
+              >Login <Loader v-if="loading"
+            /></el-button>
           </el-form>
         </div>
       </el-card>
@@ -44,11 +44,14 @@
 </template>
 
 <script>
-import Navbar from "../../components/layouts/navbar/navbar.vue";
+import Navbar from "@/components/layouts/navbar/navbar.vue";
+import Loader from "@/components/loader/index.vue";
+import auth from "@/helpers/auth/auth";
 export default {
   name: "login",
   components: {
     Navbar,
+    Loader,
   },
   data() {
     let validatePass = (rule, value, callback) => {
@@ -59,13 +62,14 @@ export default {
       }
     };
     return {
+      loading: false,
       loginForm: {
         email: "",
         password: "",
       },
       errorMessage: "error message",
       successMessage: "Success message",
-      rules: {
+      loginFormRules: {
         password: [
           {
             required: true,
@@ -89,19 +93,33 @@ export default {
     };
   },
   methods: {
-    login(loginForm) {
+    validateForm(loginForm) {
       this.$refs[loginForm].validate((valid) => {
         if (valid) {
-          this.$message({
-            message: "Login Successful",
-            type: "success",
+          const formData = { ...this.loginForm };
+          Object.keys(formData).map((item) => {
+            if (typeof formData[item] == "string") {
+              formData[item] = formData[item].trim();
+            }
           });
-          this.$router.push("/dashboard");
+          this.login(formData);
         } else {
-          this.$message.error("Oops, Something is not right");
           return false;
         }
       });
+    },
+    async login(formData) {
+      this.loading = true;
+      try {
+        const response = await auth.login(this.$axios, formData);
+        const token = response.data.data.accessJWT;
+        response ? localStorage.setItem("auth-token", token) : false;
+        this.loading = false;
+        this.$router.push({ path: "dashboard" });
+      } catch (error) {
+        this.loading = false;
+        console.error(error);
+      }
     },
   },
 };
