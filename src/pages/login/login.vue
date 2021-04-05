@@ -118,7 +118,6 @@ export default {
         this.$router.push({ path: "dashboard" });
       } catch (error) {
         this.loading = false;
-        console.error(error);
       }
     },
   },

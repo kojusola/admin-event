@@ -1,6 +1,7 @@
 require("dotenv").config();
 import axios from "axios";
 import { Message } from "element-ui";
+import router from "@/router";
 const baseURL = "https://events-trolley.herokuapp.com";
 
 const axiosConfig = {
@@ -21,27 +22,33 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
-    const errorMessage = error.response.data.msg;
-    Message.error({
-      message: errorMessage,
-    });
     return Promise.reject(error);
   }
 );
-axiosInstance.interceptors.response.use((response) => {
-  const successMessage = response.data.msg;
-  if (response.status === 200 || response.status === 201) {
-    Message.success({
-      message: successMessage,
-    });
-    return Promise.resolve(response);
-  } else {
-    const errorMessage = response.response.data.msg;
-    Message.error({
-      message: errorMessage,
-    });
-    return Promise.reject(response);
+
+axiosInstance.interceptors.response.use(
+  (response) => {
+    const successMessage = response.data.msg;
+    if (response.status && response.status === 200) {
+      Message.success({
+        message: successMessage,
+      });
+      return Promise.resolve(response);
+    } else {
+      return Promise.reject(response);
+    }
+  },
+  function(error) {
+    const response = error.response;
+    const errorMessage = response.data.msg;
+    if (response.status && response.status === 401) {
+      Message.error({
+        message: errorMessage,
+      });
+      router.push({ path: "/login" });
+    }
+    return Promise.reject(error);
   }
-});
+);
 
 export default axiosInstance;
