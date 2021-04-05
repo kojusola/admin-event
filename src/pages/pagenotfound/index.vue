@@ -1,15 +1,14 @@
 <template>
   <div>
-      <h1>page not found</h1>
+    <h6>page not found</h6>
   </div>
 </template>
 
 <script>
 export default {
-    name: 'pagenotfound'
-}
+  name: "pagenotfound",
+};
 </script>
 
 <style>
-
 </style>

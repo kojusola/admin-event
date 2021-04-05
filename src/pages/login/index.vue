@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import Navbar from "@/components/layouts/navbar/navbar.vue";
-import Loader from "@/components/loader/index.vue";
+import Navbar from "@/components/layouts/navbar/index";
+import Loader from "@/components/loader/index";
 import auth from "@/helpers/auth/auth";
 export default {
   name: "login",

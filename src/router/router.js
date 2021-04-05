@@ -1,10 +1,10 @@
-import login from "../pages/login/login";
-import dashboard from "../pages/dashboard/dashboard";
-import overview from "../pages/dashboard/overview/overview";
-import tickets from "../pages/dashboard/tickets/tickets";
-import rentals from "../pages/dashboard/rentals/rentals";
-import blog from "../pages/dashboard/blog/blog";
-import pagenotfound from "../pages/pagenotfound/pagenotfound";
+import login from "@/pages/login/index";
+import dashboard from "@/pages/dashboard/index";
+import overview from "@/pages/dashboard/overview/index";
+import tickets from "@/pages/dashboard/tickets/index";
+import rentals from "@/pages/dashboard/rentals/index";
+import blog from "@/pages/dashboard/blog/index";
+import pagenotfound from "@/pages/pagenotfound/index";
 
 function guardRoutes(to, from, next) {
   const token = localStorage.getItem("auth-token");

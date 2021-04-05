@@ -7,8 +7,6 @@
   </div>
 </template>
 <script>
-import { Loading } from "element-ui";
-Loading.service(options);
 export default {
   name: "fullScreenLoading",
   methods: {
