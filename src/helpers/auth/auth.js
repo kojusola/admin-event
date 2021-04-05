@@ -6,7 +6,4 @@ export default {
   register($axios, payload) {
     return $axios.post("/admin/register", payload);
   },
-  logout() {
-    return localStorage.clear();
-  },
 };

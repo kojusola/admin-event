@@ -38,6 +38,16 @@
           <span slot="title">Rentals</span>
         </el-menu-item>
       </div>
+      <div class="logout-container p-3">
+        <div class="d-flex justify-content-center w-100">
+          <el-button
+            type="danger"
+            class="p-2 logout-btn text-light"
+            @click="logout"
+            >Log out</el-button
+          >
+        </div>
+      </div>
     </el-menu>
   </div>
 </template>
@@ -73,6 +83,10 @@ export default {
     toggleSidebar() {
       document.getElementById("sidebar").classList.toggle("active");
       document.getElementById("content").classList.toggle("active");
+    },
+    logout() {
+      localStorage.clear();
+      this.$router.push({ path: "/" });
     },
   },
 };
@@ -123,5 +137,10 @@ export default {
   #close {
     display: block;
   }
+}
+div.logout-container {
+  height: calc(100vh - 520px);
+  display: flex;
+  align-items: flex-end;
 }
 </style>
