@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>tickets works</p>
+    <h1>something cool is going on here</h1>
   </div>
 </template>
 
