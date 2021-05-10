@@ -44,7 +44,13 @@ axiosInstance.interceptors.response.use(
       Message.error({
         message: errorMessage,
       });
-      router.push({ path: "/login" });
+      router.push({ path: "/" });
+    }
+    if (response.status && response.status === 403) {
+      Message.error({
+        message: "Session Expired. Please login again",
+      });
+      router.push({ path: "/" });
     }
     return Promise.reject(error);
   }
