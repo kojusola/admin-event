@@ -65,6 +65,7 @@
               class="verifiedStatus"
               v-bind:class="{
                 verified: scope.row.verified,
+                revoke: !scope.row.verified,
               }"
             >
               {{ scope.row.verified | verifiedStatus }}
@@ -73,14 +74,15 @@
         </el-table-column>
         <el-table-column label="Actions">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-              >Accept</el-button
-            >
             <el-button
+              v-if="!scope.row.verified"
               size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-              >Revoke</el-button
+              type="success"
+              @click="verifyTicket(scope.row._id)"
+              >Verify ticket</el-button
+            >
+            <el-button v-else size="mini" type="secondary"
+              >Revoke ticket</el-button
             >
           </template>
         </el-table-column>
@@ -113,16 +115,13 @@ export default {
     },
     verifiedStatus: function (verifiedStatus) {
       if (!verifiedStatus) {
-        return "Pending";
+        return "Unverified";
       } else {
         return "Verified";
       }
     },
   },
   methods: {
-    handleEdit(index, row) {
-      console.log(index, row);
-    },
     handleDelete(index, row) {
       console.log(index, row);
     },
@@ -138,6 +137,31 @@ export default {
         console.error(error);
         this.loadingTickets = false;
       }
+    },
+    verifyTicket(ticketId) {
+      this.$confirm(
+        "Are you sure you want to verify this ticket?",
+        "Verify Ticket",
+        {
+          confirmButtonText: "Verify",
+          cancelButtonText: "Cancel",
+        }
+      )
+        .then(async () => {
+          try {
+            const response = await tickets.verifyTicket(this.$axios, ticketId);
+            console.log(response);
+            this.getTickets();
+          } catch (error) {
+            console.error(error);
+          }
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "Verify cancelled",
+          });
+        });
     },
   },
   created() {
@@ -155,5 +179,9 @@ p.verifiedStatus {
 .verified {
   background-color: rgb(134, 252, 140);
   border: 1px solid rgb(55, 196, 0);
+}
+.revoke {
+  background-color: rgb(255, 255, 21);
+  border: 1px solid rgb(230, 149, 0);
 }
 </style>
