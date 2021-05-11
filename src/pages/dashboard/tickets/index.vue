@@ -81,7 +81,11 @@
               @click="verifyTicket(scope.row._id)"
               >Verify ticket</el-button
             >
-            <el-button v-else size="mini" type="secondary"
+            <el-button
+              v-else
+              size="mini"
+              @click="revokeTicket(scope.row._id)"
+              type="secondary"
               >Revoke ticket</el-button
             >
           </template>
@@ -149,8 +153,7 @@ export default {
       )
         .then(async () => {
           try {
-            const response = await tickets.verifyTicket(this.$axios, ticketId);
-            console.log(response);
+            await tickets.verifyTicket(this.$axios, ticketId);
             this.getTickets();
           } catch (error) {
             console.error(error);
@@ -159,7 +162,31 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "Verify cancelled",
+            message: "Verify ticket cancelled",
+          });
+        });
+    },
+    revokeTicket(ticketId) {
+      this.$confirm(
+        "Are you sure you want to revoke this ticket?",
+        "Revoke Ticket",
+        {
+          confirmButtonText: "Revoke",
+          cancelButtonText: "Cancel",
+        }
+      )
+        .then(async () => {
+          try {
+            await tickets.verifyTicket(this.$axios, ticketId);
+            this.getTickets();
+          } catch (error) {
+            console.error(error);
+          }
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "Revoke ticket cancelled",
           });
         });
     },
