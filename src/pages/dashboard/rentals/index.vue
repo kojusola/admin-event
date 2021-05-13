@@ -291,7 +291,7 @@ export default {
 
 <style lang="scss">
 .el-dialog {
-  width: fit-content !important;
+  width: 500px !important;
 }
 .el-upload-dragger,
 .el-upload {

@@ -20,7 +20,7 @@
           />
         </div>
         <div class="col-md-2">
-          <el-button type="primary" class="w-100">New Ticket</el-button>
+          <Newticket />
         </div>
       </div>
 
@@ -97,8 +97,12 @@
 
 <script>
 import tickets from "@/helpers/tickets/index";
+import Newticket from "@/components/newTicket/index";
 export default {
   name: "tickets",
+  components: {
+    Newticket,
+  },
   data() {
     return {
       loadingTickets: false,
