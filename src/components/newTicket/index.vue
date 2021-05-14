@@ -239,7 +239,7 @@
             type="primary"
             class="mt-3 w-100 ms-0"
             @click="validateForm('ticketForm')"
-            >Submit tickets <Loader v-if="loading"
+            >Submit tickets <loader v-if="loading"
           /></el-button>
         </el-form>
       </div>
@@ -248,9 +248,13 @@
 </template>
 <script>
 import tickets from "@/helpers/tickets/index";
+import loader from "@/components/loader/index";
 export default {
   name: "newTicket",
   props: ["editTicketData"],
+  components: {
+    loader,
+  },
   data() {
     var checkNumber = (rule, value, callback) => {
       setTimeout(() => {
@@ -285,6 +289,7 @@ export default {
         eventTime: "",
         venueAddress: "",
         eventStartDate: "",
+        eventEndDate: "",
         ticketSaleStartDate: "",
         ticketSaleEndDate: "",
         category: "",
@@ -541,21 +546,19 @@ export default {
           const ticketExists = this.allTickets.find(
             (item) => item._id == this.ticketForm._id
           );
-          const ticketNameExists = this.allTickets.find(
-            (item) => item.ticketName == this.ticketForm.ticketName
-          );
-          console.log(ticketExists, ticketNameExists, this.allTickets);
+          // const ticketNameExists = this.allTickets.find(
+          //   (item) => item.ticketName == this.ticketForm.ticketName
+          // );
+          // console.log(ticketExists, ticketNameExists, this.allTickets);
           if (!ticketExists) {
-            if (this.editTicketData) {
-              const ticket = {
-                ticketName: this.ticketForm.ticketName,
-                description: this.ticketForm.description,
-                numberOfTickets: this.ticketForm.numberOfTickets,
-                price: this.ticketForm.price,
-              };
-              this.allTickets.push(ticket);
-              this.ticketForm = this.ticketFormInitailState;
-            }
+            const ticket = {
+              ticketName: this.ticketForm.ticketName,
+              description: this.ticketForm.description,
+              numberOfTickets: this.ticketForm.numberOfTickets,
+              price: this.ticketForm.price,
+            };
+            this.allTickets.push(ticket);
+            this.ticketForm = this.ticketFormInitailState;
           }
           if (this.editTicketData) {
             this.updateTickets();
@@ -625,8 +628,14 @@ export default {
       formData.append("venueAddress", this.newTicketForm.venueAddress);
       formData.append("eventStartDate", this.newTicketForm.eventStartDate);
       formData.append("eventEndDate", this.newTicketForm.eventEndDate);
-      formData.append("ticketSaleEndDate", this.newTicketForm.ticketStartDate);
-      formData.append("ticketSaleStartDate", this.newTicketForm.ticketEndDate);
+      formData.append(
+        "ticketSaleEndDate",
+        this.newTicketForm.ticketSaleEndDate
+      );
+      formData.append(
+        "ticketSaleStartDate",
+        this.newTicketForm.ticketSaleStartDate
+      );
       formData.append("category", this.newTicketForm.category);
       formData.append(
         "categories",

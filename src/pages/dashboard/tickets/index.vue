@@ -139,7 +139,6 @@ export default {
         const response = await tickets.getAllTickets(this.$axios);
         const data = response.data.data;
         this.tableData = data.tickets;
-        console.log(data);
         this.loadingTickets = false;
       } catch (error) {
         console.error(error);
