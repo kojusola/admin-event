@@ -191,7 +191,7 @@
                 class="delete position-absolute"
               ></el-button>
             </el-button>
-            <el-button @click="addNewTicket" plain
+            <el-button @click="addNewTicket('ticketForm')" plain
               >Add <i class="el-icon-plus el-icon-right"></i
             ></el-button>
           </div>
@@ -579,24 +579,31 @@ export default {
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
-    addNewTicket() {
-      const ticketExixts = this.allTickets.find(
-        (item) => item._id === this.ticketForm._id
-      );
-      if (ticketExixts && ticketExixts._id === this.ticketForm._id) {
-        this.ticketForm = this.ticketFormInitailState;
-        this.$refs["ticketForm"].resetFields();
-      } else {
-        const formData = {
-          ticketName: this.ticketForm.ticketName,
-          description: this.ticketForm.description,
-          numberOfTickets: this.ticketForm.numberOfTickets,
-          price: this.ticketForm.price,
-        };
-        this.allTickets.push(formData);
-        this.ticketForm = this.ticketFormInitailState;
-        this.$refs["ticketForm"].resetFields();
-      }
+    addNewTicket(formName) {
+      console.log(this.ticketForm);
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          const ticketExixts = this.allTickets.find(
+            (item) => item._id === this.ticketForm._id
+          );
+          if (ticketExixts && ticketExixts._id === this.ticketForm._id) {
+            this.ticketForm = this.ticketFormInitailState;
+            this.$refs["ticketForm"].resetFields();
+          } else {
+            const formData = {
+              ticketName: this.ticketForm.ticketName,
+              description: this.ticketForm.description,
+              numberOfTickets: this.ticketForm.numberOfTickets,
+              price: this.ticketForm.price,
+            };
+            this.allTickets.push(formData);
+            this.ticketForm = this.ticketFormInitailState;
+            this.$refs["ticketForm"].resetFields();
+          }
+        } else {
+          return false;
+        }
+      });
     },
     deleteCurrentTicket(ticket) {
       if (this.noOfTickets > 0) {
@@ -615,11 +622,7 @@ export default {
         }
       }
     },
-    async sendTickets() {
-      this.loading = true;
-      this.newTicketForm.categories = this.allTickets;
-      const data = { ...this.newTicketForm };
-      parseInt(data.numberOfTickets);
+    prepareApiFormData() {
       const formData = new FormData();
       formData.append("image", this.newTicketForm.image);
       formData.append("eventName", this.newTicketForm.eventName);
@@ -641,6 +644,15 @@ export default {
         "categories",
         JSON.stringify(this.newTicketForm.categories)
       );
+      return formData;
+    },
+    async sendTickets() {
+      this.loading = true;
+      this.newTicketForm.categories = this.allTickets;
+      console.log(this.newTicketForm);
+      const data = { ...this.newTicketForm };
+      parseInt(data.numberOfTickets);
+      const formData = this.prepareApiFormData();
       try {
         const response = await tickets.createTicket(this.$axios, formData);
         console.log(response);
@@ -654,28 +666,28 @@ export default {
       }
     },
     cleanUpForm() {
-      this.$refs["eventsForm"].resetFields();
-      this.$refs["ticketForm"].resetFields();
+      this.newTicketForm = this.newTicketFormInitailState;
+      this.ticketForm = this.ticketFormInitailState;
       this.newTicketForm.image = null;
       this.createATicket = false;
     },
-    async updateTickets() {
-      this.loading = true;
-      try {
-        const response = await tickets.updateTicket(
-          this.$axios,
-          this.newTicketForm._id,
-          this.newTicketForm
-        );
-        console.log(response);
-        this.loading = false;
-        this.$emit("editedTicket");
-        this.handleClose();
-      } catch (error) {
-        this.loading = false;
-        console.error(error);
-      }
-    },
+    // async updateTickets() {
+    //   this.loading = true;
+    //   try {
+    //     const response = await tickets.updateTicket(
+    //       this.$axios,
+    //       this.newTicketForm._id,
+    //       this.newTicketForm
+    //     );
+    //     console.log(response);
+    //     this.loading = false;
+    //     this.$emit("editedTicket");
+    //     this.handleClose();
+    //   } catch (error) {
+    //     this.loading = false;
+    //     console.error(error);
+    //   }
+    // },
     triggerUpload() {
       this.$refs.uploadBtn.click();
     },
