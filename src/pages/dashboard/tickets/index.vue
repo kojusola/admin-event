@@ -48,6 +48,13 @@
                 <p>Start Selling: {{ props.row.ticketSaleStartDate }}</p>
                 <p>Stop Selling: {{ props.row.ticketSaleEndDate }}</p>
               </div>
+              <div class="col-md-6 d-flex justify-content-end">
+                <img
+                  :src="props.row.ticketImage.avatar"
+                  class="img-fluid ticketCover"
+                  alt="ticket avatar"
+                />
+              </div>
             </div>
           </template>
         </el-table-column>
@@ -213,5 +220,9 @@ p.verifiedStatus {
 .revoke {
   background-color: rgb(255, 255, 21);
   border: 1px solid rgb(230, 149, 0);
+}
+img.ticketCover {
+  height: 300px;
+  width: auto;
 }
 </style>
