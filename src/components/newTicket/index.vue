@@ -586,7 +586,7 @@ export default {
           const ticketExixts = this.allTickets.find(
             (item) => item._id === this.ticketForm._id
           );
-          if (ticketExixts && ticketExixts._id === this.ticketForm._id) {
+          if (ticketExixts?._id === this.ticketForm?._id) {
             this.ticketForm = this.ticketFormInitailState;
             this.$refs["ticketForm"].resetFields();
           } else {
@@ -659,7 +659,9 @@ export default {
         this.loading = false;
         this.dialogVisible = false;
         this.cleanUpForm();
-        this.$emit("editedTicket");
+        this.editTicketData
+          ? this.$emit("editedTicket")
+          : this.$emit("ticketCreated"); // you might want to reduce this line to just one line: ticketsUpdated and reduce the cluster
       } catch (error) {
         this.loading = false;
         console.error(error);
@@ -668,26 +670,27 @@ export default {
     cleanUpForm() {
       this.newTicketForm = this.newTicketFormInitailState;
       this.ticketForm = this.ticketFormInitailState;
+      this.allTickets = [];
       this.newTicketForm.image = null;
       this.createATicket = false;
     },
-    // async updateTickets() {
-    //   this.loading = true;
-    //   try {
-    //     const response = await tickets.updateTicket(
-    //       this.$axios,
-    //       this.newTicketForm._id,
-    //       this.newTicketForm
-    //     );
-    //     console.log(response);
-    //     this.loading = false;
-    //     this.$emit("editedTicket");
-    //     this.handleClose();
-    //   } catch (error) {
-    //     this.loading = false;
-    //     console.error(error);
-    //   }
-    // },
+    async updateTickets() {
+      this.loading = true;
+      try {
+        const response = await tickets.updateTicket(
+          this.$axios,
+          this.newTicketForm._id,
+          this.newTicketForm
+        );
+        console.log(response);
+        this.loading = false;
+        this.$emit("editedTicket");
+        this.handleClose();
+      } catch (error) {
+        this.loading = false;
+        console.error(error);
+      }
+    },
     triggerUpload() {
       this.$refs.uploadBtn.click();
     },

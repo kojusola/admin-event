@@ -20,7 +20,7 @@
           />
         </div>
         <div class="col-md-2">
-          <Newticket />
+          <Newticket @ticketCreated="getTickets" />
         </div>
       </div>
 
