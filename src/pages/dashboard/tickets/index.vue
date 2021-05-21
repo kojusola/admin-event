@@ -2,7 +2,7 @@
   <div class="w-100">
     <div>
       <div class="row">
-        <div class="col-md-3">
+        <!-- <div class="col-md-3">
           <el-select
             class="w-100 mb-3"
             v-model="sortValue"
@@ -10,8 +10,8 @@
           >
             <el-option class="w-100" label="Action" value="Action"> </el-option>
           </el-select>
-        </div>
-        <div class="col-md-7">
+        </div> -->
+        <div class="col-md-10">
           <el-input
             v-model="search"
             class="d-inline-block mb-3"
@@ -26,6 +26,7 @@
 
       <el-table
         v-loading="loadingTickets"
+        :default-sort="{ prop: 'createdAt', order: 'descending' }"
         :data="
           tableData.filter(
             (data) =>
@@ -58,8 +59,9 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="Event Name" prop="eventName"> </el-table-column>
-        <el-table-column label="Created" prop="createdAt">
+        <el-table-column label="Event Name" prop="eventName" sortable>
+        </el-table-column>
+        <el-table-column label="Created" prop="createdAt" sortable>
           <template slot-scope="scope">{{
             scope.row.createdAt | toLocaleDate
           }}</template>
