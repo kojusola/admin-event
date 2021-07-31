@@ -1,0 +1,15 @@
+
+MONGO_URL= mongodb://EtdbUser:EtbUserPin1.@cluster0-shard-00-00.npehb.mongodb.net:27017,cluster0-shard-00-01.npehb.mongodb.net:27017,cluster0-shard-00-02.npehb.mongodb.net:27017/EVENTSTROLLEY_BACKEND?ssl=true&replicaSet=atlas-fsbx59-shard-0&authSource=admin&retryWrites=true&w=majority
+ACCESS_TOKEN_SECRET = ahgdkefdvrwreubfnbvjx^^*%$(32458gchgjh)
+REFRESH_TOKEN_SECRET = khfvondlngbvyeuilrgie^^*%$ghagc[454572]
+REDIS_URL= redis://localhost:6379
+JWT_REFRESH_SECRET_EXP_DAY = 30
+EMAIL_PASS = eventstrolleys123
+CLOUD_NAME = dkuukrmay
+CLOUDINARY_API_KEY = 224237275213979
+CLOUDINARY_API_SECRET = kyqZx4mnZSkZGcPPGoo6XfeONUk
+SESSION_SECRET = secret
+MONNIFY_API_SECRET_KEY = TUtfVEVTVF9CRjlOQllQTjVVOlhLWFJWMkdCRVBUTE0yQlBZWEpTWlMyS1BRWk1WRVpU
+CONTRACT_CODE = 3321918529
+WALLET_ACCOUNT_NUMBER = 5371869417
+MONNIFY_CLIENT_SECRET_KEY = XKXRV2GBEPTLM2BPYXJSZS2KPQZMVEZT
