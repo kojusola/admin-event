@@ -3,6 +3,7 @@ import dashboard from "@/pages/dashboard/index";
 import overview from "@/pages/dashboard/overview/index";
 import tickets from "@/pages/dashboard/tickets/index";
 import rentals from "@/pages/dashboard/rentals/index";
+import vendors from "@/pages/dashboard/vendors/index";
 import blog from "@/pages/dashboard/blog/index";
 import pagenotfound from "@/pages/pagenotfound/index";
 
@@ -10,13 +11,13 @@ function guardRoutes(to, from, next) {
   const token = localStorage.getItem("auth-token");
   if (token) {
     next();
-  } else {
+  } else { 
     next("/");
   }
 }
 
 const routes = [
-  { path: "", component: login },
+  { path: "", component: login }, 
   {
     path: "/dashboard",
     component: dashboard,
@@ -26,6 +27,7 @@ const routes = [
       { path: "rentals", component: rentals },
       { path: "blog", component: blog },
       { path: "tickets", component: tickets },
+      { path: "vendors", component: vendors},
     ],
   },
   { path: "*", component: pagenotfound },

@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Message } from "element-ui";
 import router from "@/router";
-// const baseURL = "https://events-trolley.herokuapp.com";
-const baseURL = "http://localhost:3000";
+const baseURL = "https://events-trolley.herokuapp.com";
+// const baseURL = "http://localhost:3000";
 
 const axiosConfig = {
   baseURL: baseURL,
