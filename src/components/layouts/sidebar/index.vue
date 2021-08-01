@@ -29,11 +29,15 @@
           <ion-icon name="ticket-outline" class="mr-3"></ion-icon>
           <span slot="title">Tickets</span>
         </el-menu-item>
-        <el-menu-item index="3" @click="toBlog">
+        <el-menu-item index="3" @click="toVendors">
+          <ion-icon name="people-outline" class="mr-3"></ion-icon>
+          <span slot="title">Vendors</span>
+        </el-menu-item>
+        <el-menu-item index="4" @click="toBlog">
           <ion-icon name="book-outline" class="mr-3"></ion-icon>
           <span slot="title">Blog</span>
         </el-menu-item>
-        <el-menu-item index="4" @click="toRentals">
+        <el-menu-item index="5" @click="toRentals">
           <ion-icon name="key-outline" class="mr-3"></ion-icon>
           <span slot="title">Rentals</span>
         </el-menu-item>
@@ -65,6 +69,10 @@ export default {
     },
     toTickets() {
       this.$router.push("/dashboard/tickets").catch(() => {});
+      this.checkWindow();
+    },
+    toVendors() {
+      this.$router.push("/dashboard/vendors").catch(() => {});
       this.checkWindow();
     },
     toBlog() {

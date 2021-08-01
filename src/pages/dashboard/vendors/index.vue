@@ -19,19 +19,15 @@
             auto-complete="on"
           />
         </div>
-        <div class="col-md-2">
-          <Newticket @ticketCreated="getTickets" />
-        </div>
       </div>
-
       <el-table
-        v-loading="loadingTickets"
+        v-loading="loadingUsers"
         :default-sort="{ prop: 'createdAt', order: 'descending' }"
         :data="
           tableData.filter(
             (data) =>
               !search ||
-              data.eventName.toLowerCase().includes(search.toLowerCase())
+              data.fullname.toLowerCase().includes(search.toLowerCase())
           )
         "
         style="width: 100%"
@@ -40,62 +36,41 @@
           <template slot-scope="props">
             <div class="row">
               <div class="col-md-6">
-                <p>Event Name: {{ props.row.eventName }}</p>
-                <p>Category: {{ props.row.category }}</p>
+                <p>Full Name: {{ props.row.fullname}}</p>
+                <p>Email: {{ props.row.email }}</p>
+                <p>Mobile Number: {{ props.row.mobileNumber}}</p>
+                <p>Business Name: {{ props.row.businessName}}</p>
                 <p>Created At: {{ props.row.createdAt | toLocaleDate }}</p>
-                <p>Event Venue: {{ props.row.eventVenue }}</p>
-                <p>Event Address: {{ props.row.venueAddress }}</p>
-                <p>Status: {{ props.row.verified | verifiedStatus }}</p>
-                <p>Start Selling: {{ props.row.ticketSaleStartDate }}</p>
-                <p>Stop Selling: {{ props.row.ticketSaleEndDate }}</p>
-              </div>
-              <div class="col-md-6 d-flex justify-content-end">
-                <img
-                  :src="props.row.ticketImage.avatar"
-                  class="img-fluid ticketCover"
-                  alt="ticket avatar"
-                />
+                <p>Location: {{ props.row.location }}</p>
+                <p>Vendor Payout Percentage: {{ props.row.vendorPayoutPercentage}}</p>
               </div>
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="Event Name" prop="eventName" sortable>
+        <el-table-column label="Users" prop="fullname" sortable>
         </el-table-column>
         <el-table-column label="Created" prop="createdAt" sortable>
           <template slot-scope="scope">{{
             scope.row.createdAt | toLocaleDate
           }}</template>
         </el-table-column>
-        <el-table-column label="Category" prop="category"> </el-table-column>
-        <el-table-column label="Venue" prop="eventVenue"> </el-table-column>
-        <el-table-column label="Status" prop="verified">
-          <template slot-scope="scope"
-            ><p
-              class="verifiedStatus"
-              v-bind:class="{
-                verified: scope.row.verified,
-                revoke: !scope.row.verified,
-              }"
-            >
-              {{ scope.row.verified | verifiedStatus }}
-            </p></template
-          >
-        </el-table-column>
-        <el-table-column label="Actions">
-          <template slot-scope="scope">
-            <el-button
-              v-if="!scope.row.verified"
+        <el-table-column label="Business Name" prop="businessName"> </el-table-column>
+        <el-table-column label="location" prop="location"> </el-table-column>
+        <el-table-column label="Email" prop="email"> </el-table-column>
+        <el-table-column label="Payout Percentage" prop="vendorPayoutPercentage"> </el-table-column>
+        <el-table-column label="Change %">
+            <template slot-scope="scope">
+            <el-input
+            v-model="percentage"
+            class="d-inline-block mb-3"
+            placeholder="Type to search"
+            auto-complete="on"
+          />
+          <el-button
               size="mini"
               type="success"
-              @click="verifyTicket(scope.row._id)"
-              >Verify ticket</el-button
-            >
-            <el-button
-              v-else
-              size="mini"
-              @click="revokeTicket(scope.row._id)"
-              type="secondary"
-              >Revoke ticket</el-button
+              @click="verifyTicket(scope.row._id, percentage)"
+              >Change</el-button
             >
           </template>
         </el-table-column>
@@ -106,18 +81,18 @@
 
 <script>
 import tickets from "@/helpers/tickets/index";
-import Newticket from "@/components/newTicket/index";
+import users from "@/helpers/users/index";
 export default {
   name: "tickets",
-  components: {
-    Newticket,
-  },
   data() {
     return {
-      loadingTickets: false,
+      loadingUsers: false,
       tableData: [],
       search: "",
       sortValue: "",
+      showInput:false,
+      percentage:"",
+      selectedUser: "",
     };
   },
   filters: {
@@ -142,22 +117,26 @@ export default {
     handleDelete(index, row) {
       console.log(index, row);
     },
-    async getTickets() {
-      this.loadingTickets = true;
+    async getUsers() {
+      this.loadingUsers = true;
       try {
-        const response = await tickets.getAllTickets(this.$axios);
+        const response = await users.getUsers(this.$axios);
         const data = response.data.data;
-        this.tableData = data.tickets;
-        this.loadingTickets = false;
+        this.tableData = data.Users;
+        this.loadingUsers = false;
       } catch (error) {
         console.error(error);
-        this.loadingTickets = false;
+        this.loadingUsers = false;
       }
     },
     verifyTicket(ticketId) {
       this.$confirm(
-        "Are you sure you want to verify this ticket?",
-        "Verify Ticket",
+        <el-input
+            class="d-inline-block mb-3"
+            placeholder="Type to search"
+            auto-complete="on"
+          />,
+        "Change Payout percentage",
         {
           confirmButtonText: "Verify",
           cancelButtonText: "Cancel",
@@ -202,9 +181,12 @@ export default {
           });
         });
     },
+    showsInput(){
+        this.loading = true;
+    }
   },
   created() {
-    this.getTickets();
+    this.getUsers();
   },
 };
 </script>
