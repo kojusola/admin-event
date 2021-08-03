@@ -59,20 +59,29 @@
         <el-table-column label="Email" prop="email"> </el-table-column>
         <el-table-column label="Payout Percentage" prop="vendorPayoutPercentage"> </el-table-column>
         <el-table-column label="Change %">
-            <template slot-scope="scope">
+        <template slot-scope="scope">
+          <el-button
+              size="mini"
+              type="success"
+              @click="showsInput(scope.row.userId)"
+              >Change</el-button
+            >
+            <el-dialog title="Add New Payout Percentage"
+            :visible.sync="showInput"
+            width="30%"
+            >
             <el-input
             v-model="percentage"
             class="d-inline-block mb-3"
             placeholder="Type to search"
             auto-complete="on"
-          />
-          <el-button
-              size="mini"
-              type="success"
-              @click="verifyTicket(scope.row._id, percentage)"
-              >Change</el-button
-            >
-          </template>
+            />
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="showInput = false">Close</el-button>
+              <el-button type="primary" @click="verifyTicket()">Change</el-button>
+            </span>
+            </el-dialog>
+        </template>
         </el-table-column>
       </el-table>
     </div>
@@ -80,7 +89,6 @@
 </template>
 
 <script>
-import tickets from "@/helpers/tickets/index";
 import users from "@/helpers/users/index";
 export default {
   name: "tickets",
@@ -91,8 +99,10 @@ export default {
       search: "",
       sortValue: "",
       showInput:false,
-      percentage:"",
+      percentage:null,
       selectedUser: "",
+      userId:"",
+      payload: {}
     };
   },
   filters: {
@@ -129,13 +139,11 @@ export default {
         this.loadingUsers = false;
       }
     },
-    verifyTicket(ticketId) {
+    verifyTicket() {
+      this.showInput = false
+      console.log(this.userId)
       this.$confirm(
-        <el-input
-            class="d-inline-block mb-3"
-            placeholder="Type to search"
-            auto-complete="on"
-          />,
+        "Are you sure you want to change the Payout percentage?",
         "Change Payout percentage",
         {
           confirmButtonText: "Verify",
@@ -144,8 +152,11 @@ export default {
       )
         .then(async () => {
           try {
-            await tickets.verifyTicket(this.$axios, ticketId);
-            this.getTickets();
+            this.payload = {
+              vendorPayoutPercentage: this.percentage
+            }
+            await users.updateVendorPayoutPercentage(this.$axios, this.userId,this.payload);
+            this.getUsers();
           } catch (error) {
             console.error(error);
           }
@@ -153,36 +164,13 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "Verify ticket cancelled",
+            message: "Change Payout Percentage Cancelled",
           });
         });
     },
-    revokeTicket(ticketId) {
-      this.$confirm(
-        "Are you sure you want to revoke this ticket?",
-        "Revoke Ticket",
-        {
-          confirmButtonText: "Revoke",
-          cancelButtonText: "Cancel",
-        }
-      )
-        .then(async () => {
-          try {
-            await tickets.revokeTicket(this.$axios, ticketId);
-            this.getTickets();
-          } catch (error) {
-            console.error(error);
-          }
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "Revoke ticket cancelled",
-          });
-        });
-    },
-    showsInput(){
-        this.loading = true;
+    showsInput(usersId){
+      this.showInput= true,
+      this.userId=usersId
     }
   },
   created() {
