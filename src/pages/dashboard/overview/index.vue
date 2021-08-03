@@ -5,9 +5,9 @@
             <el-card class="box-card col-md-3 " style="min-height: 300px;" align="middle" οnclick="">
               <div class="el-card__body mid">
                 <h1>Revenue</h1>
-                <div class=" content-flex mid">
-                  <span>&#8358;</span>
-                  <span>{{tableData.revenue}}</span>
+                <div class="content-flex">
+                  <h3>&#8358;</h3>
+                  <h3>{{tableData.revenue}}</h3>
 
                 </div>
               </div>
@@ -16,7 +16,7 @@
               <div class="el-card__body mid">
                 <h1>Total Number of Tickets</h1>
                 <div class="content mid">
-                  <span>{{tableData.ticket}}</span>
+                  <h3>{{tableData.ticket}}</h3>
 
                 </div>
               </div>
@@ -25,7 +25,7 @@
               <div class="el-card__body mid">
                 <h1>Total Number of Vendors</h1>
                 <div class="content  mid">
-                  <span>{{tableData.vendors}}</span>
+                  <h3>{{tableData.vendors}}</h3>
 
                 </div>
               </div>
@@ -36,7 +36,7 @@
               <div class="el-card__body mid">
                 <h1>Number of Registered Customers</h1>
                  <div class="content  mid">
-                  <span>{{tableData.customers}}</span>
+                  <h3>{{tableData.customers}}</h3>
 
                 </div>
               </div>
@@ -131,6 +131,6 @@ export default {
     font-size:30px;
   }
   .content span, .content-flex span{
-    font-size:30px;
+    font-size:20px;
   }
 </style>
