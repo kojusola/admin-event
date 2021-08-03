@@ -73,7 +73,7 @@
             <el-input
             v-model="percentage"
             class="d-inline-block mb-3"
-            placeholder="Type to search"
+            placeholder="Enter Percentage"
             auto-complete="on"
             />
             <span slot="footer" class="dialog-footer">
@@ -91,7 +91,7 @@
 <script>
 import users from "@/helpers/users/index";
 export default {
-  name: "tickets",
+  name: "vendors",
   data() {
     return {
       loadingUsers: false,
